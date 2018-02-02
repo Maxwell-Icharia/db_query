@@ -1,3 +1,5 @@
+/* Query 1 */
+
 SELECT 
     `stop_name`
 FROM
@@ -7,14 +9,21 @@ WHERE
 
 ORDER BY `stop_name` ASC;
 
+/* Query 2 */
 
 SELECT 
 	`frequencies`.`start_time`,
-	 `frequencies`.`end_time`
+	 `frequencies`.`end_time`,
+     (`frequencies`.`headway_secs` / 60) AS `timetotrip(minutes)`,
+     `trips`.`trip_headsign`
+     
 FROM
-    `frequencies`
+    `frequencies`, `trips`
+    
+WHERE
+	`frequencies`.`trip_id` = `trips`.`trip_id`
 
-ORDER BY `frequencies`.`start_time` ASC;
+/* Query 3 */
 
 SELECT 
 	(`frequencies`.`end_time` - `frequencies`.`start_time`) AS `duration`,
@@ -22,3 +31,15 @@ SELECT
     `frequencies`.`start_time`, `frequencies`.`end_time`
 FROM
     `frequencies`
+    
+/* Query 4 */
+
+SELECT 
+	`routes`.`route_short_name`,
+    `routes`.`route_desc`,
+    `trips`.`trip_headsign`     
+FROM
+    `routes`, `trips`
+    
+WHERE
+	`routes`.`route_id` = `trips`.`route_id`
